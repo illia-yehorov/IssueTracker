@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    container_name: issuetracker_db
+    environment:
+      POSTGRES_USER: issuetracker
+      POSTGRES_PASSWORD: issuetracker
+      POSTGRES_DB: issuetracker
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U issuetracker"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  db_data:
