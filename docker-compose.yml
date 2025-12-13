@@ -1,3 +1,5 @@
+name: tasktracker
+
 services:
   postgres:
     image: postgres:15.3-alpine
@@ -6,6 +8,8 @@ services:
       POSTGRES_DB: tasktracker
       POSTGRES_USER: tasktracker
       POSTGRES_PASSWORD: tasktracker
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
