@@ -5,3 +5,5 @@
 /.settings/
 */.DS_Store
 /.vscode/
+/build/
+/.gradle/
