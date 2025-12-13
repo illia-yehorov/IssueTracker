@@ -80,3 +80,14 @@ Accept: application/json
   "dueDate": "2026-01-10",
   "assigneeId": 99999999
 }
+
+
+
+### Get users
+GET {{host}}/api/users
+Accept: application/json
+
+### Get users
+GET {{host}}/api/users?page=1&size=2
+Accept: application/json
+

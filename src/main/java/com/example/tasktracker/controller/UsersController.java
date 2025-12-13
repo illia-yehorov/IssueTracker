@@ -5,6 +5,7 @@ import com.example.tasktracker.dto.user.UserResponse;
 import com.example.tasktracker.service.AppUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,5 +25,13 @@ public class UsersController {
     @GetMapping("/{id}")
     public UserResponse get(@PathVariable long id) {
         return service.get(id);
+    }
+
+    @GetMapping
+    public Page<UserResponse> list(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ) {
+        return service.list(page, size);
     }
 }
