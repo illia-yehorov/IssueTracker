@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: tasktracker-jpa
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tasktracker
+    username: tasktracker
+    password: tasktracker
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    enabled: true
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace
