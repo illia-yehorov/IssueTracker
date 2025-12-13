@@ -1,0 +1,81 @@
+### Create user
+# @name createUser
+POST {{host}}/api/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "ilya@example.com",
+  "fullName": "Ilya Egorov"
+}
+
+> {% client.global.set("userId", response.body.id); %}
+
+### Get user by saved userId
+GET {{host}}/api/users/{{userId}}
+Accept: application/json
+
+
+### Create task WITH assigneeId (uses saved userId)
+# @name createTaskWithAssignee
+POST {{host}}/api/tasks
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "First task",
+  "description": "Practice JPA mappings",
+  "priority": "MEDIUM",
+  "dueDate": "2026-01-10",
+  "assigneeId": {{userId}}
+}
+
+> {% client.global.set("taskId", response.body.id); %}
+
+### Get task by saved taskId
+GET {{host}}/api/tasks/{{taskId}}
+Accept: application/json
+
+
+### Create task WITHOUT assigneeId
+# @name createTaskWithoutAssignee
+POST {{host}}/api/tasks
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Unassigned task",
+  "description": "No assignee yet",
+  "priority": "LOW",
+  "dueDate": null
+}
+
+
+### Negative test: create user with invalid email (expect 400)
+POST {{host}}/api/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "not-an-email",
+  "fullName": ""
+}
+
+
+### Negative test: get missing user (expect 404)
+GET {{host}}/api/users/99999999
+Accept: application/json
+
+
+### Negative test: create task with missing assignee (expect 404)
+POST {{host}}/api/tasks
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Task with wrong assignee",
+  "description": "Should fail",
+  "priority": "HIGH",
+  "dueDate": "2026-01-10",
+  "assigneeId": 99999999
+}
