@@ -30,8 +30,9 @@ public class UsersController {
     @GetMapping
     public Page<UserResponse> list(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "fullName") String sortBy
     ) {
-        return service.list(page, size);
+        return service.list(page, size, sortBy);
     }
 }

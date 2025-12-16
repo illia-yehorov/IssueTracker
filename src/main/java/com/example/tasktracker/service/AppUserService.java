@@ -15,12 +15,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class AppUserService {
 
     private final AppUserRepository repository;
+    private final Set<String> sortFields = Set.of("fullName", "email", "id", "createdAt");
 
     @Transactional
     public UserResponse create(CreateUserRequest req) {
@@ -43,12 +45,15 @@ public class AppUserService {
     }
 
     @Transactional(readOnly = true)
-    public Page<UserResponse> list(int page, int size) {
+    public Page<UserResponse> list(int page, int size, String sortBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
-        return repository.findAll(pageable).map(this::toResponse);
+        return repository.findAll(pageable).map(this::toListResponse);
     }
 
     private UserResponse toResponse(AppUser u) {
         return new UserResponse(u.getId(), u.getEmail(), u.getFullName(), u.getCreatedAt());
+    }
+    private UserResponse toListResponse(AppUser u) {
+        return new UserResponse(u.getId(), u.getEmail(), u.getFullName(), null);
     }
 }
