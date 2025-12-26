@@ -17,7 +17,14 @@ services:
       interval: 5s
       timeout: 3s
       retries: 20
-
+  tracker:
+    build: .
+    ports:
+      - "8082:8081"
+    environment:
+      port: "8081"
+      datasource.url: "jdbc:postgresql://tasktracker-postgres:5432/tasktracker"
+    depends_on: [postgres]
 
 volumes:
   pgdata:
