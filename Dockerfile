@@ -1,5 +1,5 @@
 # Базовый образ с JRE (для запуска)
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:21-jre
 
 # (опционально) рабочая папка внутри контейнера
 WORKDIR /app

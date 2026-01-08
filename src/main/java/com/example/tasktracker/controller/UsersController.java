@@ -3,6 +3,7 @@ package com.example.tasktracker.controller;
 import com.example.tasktracker.dto.user.CreateUserRequest;
 import com.example.tasktracker.dto.user.UserResponse;
 import com.example.tasktracker.service.AppUserService;
+import io.micrometer.core.annotation.Timed;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,11 @@ public class UsersController {
         return service.get(id);
     }
 
+
+    // TODO metric is not added!!!
+    @Timed(value = "app_users_controller_seconds",
+            histogram = true,
+            extraTags = {"endpoint", "get_users"})
     @GetMapping
     public Page<UserResponse> list(
             @RequestParam(defaultValue = "0") int page,
