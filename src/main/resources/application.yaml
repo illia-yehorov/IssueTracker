@@ -30,7 +30,8 @@ logging:
 #    org.hibernate.orm.jdbc.bind: trace
 
   file:
-    name: observability/logs/app.log
+    name: ${LOG_FILE:observability/logs/app.log}
+#    name: observability/logs/app.log
 
 management:
   endpoints:
