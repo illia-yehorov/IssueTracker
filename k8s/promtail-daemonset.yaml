@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: promtail-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: promtail
+  template:
+    metadata:
+      labels:
+        app: promtail
+    spec:
+      serviceAccountName: promtail-serviceaccount
+
+      # promtail читает файлы на node => нужны volume hostPath
+      volumes:
+        - name: promtail-config
+          configMap:
+            name: promtail-config
+
+        - name: varlog
+          hostPath:
+            path: /var/log
+            type: Directory
+          # /var/log/containers и /var/log/pods обычно здесь
+
+        - name: promtail-positions
+          hostPath:
+            path: /run/promtail
+            type: DirectoryOrCreate
+          # positions храним на node, чтобы переживать перезапуск Pod’а
+
+      containers:
+        - name: promtail
+          image: grafana/promtail:latest
+          args:
+            - -config.file=/etc/promtail/promtail.yaml
+          ports:
+            - name: http
+              containerPort: 9080
+
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 9080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+          volumeMounts:
+            - name: promtail-config
+              mountPath: /etc/promtail
+              # внутри будет /etc/promtail/promtail.yaml
+
+            - name: varlog
+              mountPath: /var/log
+              readOnly: true
+              # читаем логи только на чтение
+
+            - name: promtail-positions
+              mountPath: /run/promtail
+              # positions.yaml будет тут

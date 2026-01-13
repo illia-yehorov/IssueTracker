@@ -26,8 +26,8 @@ services:
       ports:
         - "8085:8081"
       environment:
-        port: "8081"
-        datasource.url: "jdbc:postgresql://postgres:5432/tasktracker"
+        tracker_port: "8081"
+        datasource_url: "jdbc:postgresql://postgres:5432/tasktracker"
         LOG_FILE: /var/log/myapp/app.log
       volumes:
         - ./logs-docker:/var/log/myapp

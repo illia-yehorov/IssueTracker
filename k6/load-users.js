@@ -11,7 +11,7 @@ export const options = {
     },
 };
 
-const HOST = __ENV.HOST || "http://localhost:8085";
+const HOST = __ENV.HOST || "http://localhost:5086";
 const USERS_MIN_ID = 1;
 const USERS_MAX_ID = 35;
 

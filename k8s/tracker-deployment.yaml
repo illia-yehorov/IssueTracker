@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracker-deployment
+spec:
+  selector:
+    matchLabels:
+      app: tracker
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tracker
+    spec:
+      containers:
+        - name: tracker
+          image: tracker-app:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: datasource_url
+              value: jdbc:postgresql://postgres:5432/tasktracker
+            - name: tracker_port
+              value: '8086'

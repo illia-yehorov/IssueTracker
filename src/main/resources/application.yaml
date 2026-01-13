@@ -1,12 +1,12 @@
 server:
-  port: ${port:8088}
+  port: ${tracker_port:8088}
 
 spring:
   application:
     name: tasktracker-jpa
 
   datasource:
-    url: ${datasource.url:jdbc:postgresql://localhost:5432/tasktracker}
+    url: ${datasource_url:jdbc:postgresql://localhost:5432/tasktracker}
     username: tasktracker
     password: tasktracker
     driver-class-name: org.postgresql.Driver
